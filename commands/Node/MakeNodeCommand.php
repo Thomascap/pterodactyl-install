@@ -112,12 +112,11 @@ class MakeNodeCommand extends Command
             'name' => $node->name,
             'id' => $node->id,
             'uuid' => $node->uuid,
-            'daemon_token' => $node->daemon_token
             'daemon_token_id' => $node->daemon_token_id
         ]));
         
         Storage::disk('local')->put('uuid.txt', $node->uuid);
-        Storage::disk('local')->put('daemon_token.txt', $node->daemon_token);
+        Storage::disk('local')->put('daemon_token.txt', $daemon_token2);
         Storage::disk('local')->put('daemon_token_id.txt', $node->daemon_token_id);
     }
 }
