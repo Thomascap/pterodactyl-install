@@ -50,15 +50,21 @@ class MakeNodeCommand extends Command
      * @var string
      */
     protected $description = 'Creates a new node on the system via the CLI.';
+    
+    /**
+     * @var \Illuminate\Contracts\Encryption\Encrypter
+     */
+    private $encrypter;
 
     /**
      * Create a new command instance.
      */
-    public function __construct(NodeCreationService $creationService)
+    public function __construct(NodeCreationService $creationService, Encrypter $encrypter)
     {
         parent::__construct();
 
         $this->creationService = $creationService;
+        Encrypter $encrypter
     }
 
     /**
