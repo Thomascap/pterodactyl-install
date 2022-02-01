@@ -100,12 +100,13 @@ class MakeNodeCommand extends Command
         $disk = $this->option('maxDisk') ?? $this->ask(trans('command/messages.node.ask_disk'));
         $disk_overallocate = $this->option('overallocateDisk') ?? $this->ask(trans('command/messages.node.ask_disk_overallocate'));
         $upload_size = $this->option('uploadSize') ?? $this->ask(trans('command/messages.node.ask_upload_size'));
-
+        $daemon_token2 = Str::random(Node::DAEMON_TOKEN_LENGTH);
+        $daemon_token = $this->encrypter->encrypt($daemon_token2);
         $daemonListen = $this->option('daemonListeningPort') ?? $this->ask(trans('command/messages.node.ask_daemonListen'));
         $daemonSFTP = $this->option('daemonSFTPPort') ?? $this->ask(trans('command/messages.node.ask_daemonSFTP'));
         $daemonBase = $this->option('daemonBase') ?? $this->ask(trans('command/messages.node.ask_daemonBase'));
 
-        $node = $this->creationService->handle(compact('name', 'description', 'location_id', 'fqdn', 'public', 'scheme', 'behind_proxy', 'maintenance_mode', 'memory', 'memory_overallocate', 'disk', 'disk_overallocate', 'upload_size', 'daemonListen', 'daemonSFTP', 'daemonBase'));
+        $node = $this->creationService->handle(compact('name', 'description', 'location_id', 'fqdn', 'public', 'scheme', 'behind_proxy', 'maintenance_mode', 'memory', 'memory_overallocate', 'disk', 'disk_overallocate', 'upload_size', 'daemon_token', 'daemonListen', 'daemonSFTP', 'daemonBase'));
         $this->line(trans('command/messages.node.created', [
             'location' => $node->location_id,
             'name' => $node->name,
