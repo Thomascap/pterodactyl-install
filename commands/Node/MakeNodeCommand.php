@@ -100,23 +100,23 @@ class MakeNodeCommand extends Command
         $disk = $this->option('maxDisk') ?? $this->ask(trans('command/messages.node.ask_disk'));
         $disk_overallocate = $this->option('overallocateDisk') ?? $this->ask(trans('command/messages.node.ask_disk_overallocate'));
         $upload_size = $this->option('uploadSize') ?? $this->ask(trans('command/messages.node.ask_upload_size'));
-        $daemon_token_id = Str::random(Node::DAEMON_TOKEN_ID_LENGTH);
-        $daemon_token_random = Str::random(Node::DAEMON_TOKEN_LENGTH);
-        $daemon_token = $this->encrypter->encrypt($daemon_token_random);
+
         $daemonListen = $this->option('daemonListeningPort') ?? $this->ask(trans('command/messages.node.ask_daemonListen'));
         $daemonSFTP = $this->option('daemonSFTPPort') ?? $this->ask(trans('command/messages.node.ask_daemonSFTP'));
         $daemonBase = $this->option('daemonBase') ?? $this->ask(trans('command/messages.node.ask_daemonBase'));
 
-        Storage::disk('local')->put('uuid.txt', $uuid);
-        Storage::disk('local')->put('daemon_token.txt', $daemon_token_random);
-        Storage::disk('local')->put('daemon_token_id.txt', $daemon_token_id);
-
-
-        $node = $this->creationService->handle(compact('uuid', 'name', 'description', 'location_id', 'fqdn', 'public', 'scheme', 'behind_proxy', 'maintenance_mode', 'memory', 'memory_overallocate', 'disk', 'disk_overallocate', 'upload_size', 'daemon_token_id', 'daemon_token', 'daemonListen', 'daemonSFTP', 'daemonBase'));
+        $node = $this->creationService->handle(compact('name', 'description', 'location_id', 'fqdn', 'public', 'scheme', 'behind_proxy', 'maintenance_mode', 'memory', 'memory_overallocate', 'disk', 'disk_overallocate', 'upload_size', 'daemonListen', 'daemonSFTP', 'daemonBase'));
         $this->line(trans('command/messages.node.created', [
             'location' => $node->location_id,
             'name' => $node->name,
             'id' => $node->id,
+            'uuid' => $node->uuid,
+            'daemon_token' => $node->daemon_token
+            'daemon_token_id' => $node->daemon_token_id
         ]));
+        
+        Storage::disk('local')->put('uuid.txt', $node->uuid);
+        Storage::disk('local')->put('daemon_token.txt', $node->daemon_token);
+        Storage::disk('local')->put('daemon_token_id.txt', $node->daemon_token_id);
     }
 }
