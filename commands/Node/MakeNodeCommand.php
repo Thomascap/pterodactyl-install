@@ -64,7 +64,7 @@ class MakeNodeCommand extends Command
         parent::__construct();
 
         $this->creationService = $creationService;
-        Encrypter $encrypter
+        $this->encrypter = $encrypter;
     }
 
     /**
