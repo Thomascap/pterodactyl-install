@@ -10,6 +10,12 @@
 namespace Pterodactyl\Console\Commands\Node;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
+use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Str;
+use Pterodactyl\Models\Node;
+use Illuminate\Contracts\Encryption\Encrypter;
+use Illuminate\Support\Facades\Storage;
 use Pterodactyl\Services\Nodes\NodeCreationService;
 
 class MakeNodeCommand extends Command
