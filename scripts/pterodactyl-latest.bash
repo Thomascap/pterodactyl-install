@@ -1,4 +1,4 @@
-apt update
+
 
 FQDN="pterodactyl.mynode.nl"
 USE_SSL=false
